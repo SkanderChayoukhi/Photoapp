@@ -31,7 +31,7 @@ This project is a **photo-sharing application** built using **FastAPI** for back
 
 ### Clone the Repository
 ```sh
-git clone https://github.com/yourusername/photo-sharing-app.git
+git clone [https://github.com/yourusername/photo-sharing-app.git](https://github.com/SkanderChayoukhi/Photoapp.git)
 cd photo-sharing-app
 ```
 
