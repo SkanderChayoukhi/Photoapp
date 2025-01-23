@@ -36,7 +36,6 @@ cd photo-sharing-app
 ```
 
 ### Environment Variables
-Create a `.env` file and configure your environment variables:
 ```
 MONGO_HOST=mongo-service
 PHOTOGRAPHER_HOST=photographer-service
@@ -76,7 +75,9 @@ curl -X POST \
   -H 'Content-Type: application/json' \
   -d '{
     "title": "My Album",
-    "description": "Collection of travel photos"
+    "description": "Collection of travel photos",
+    "cover_photo_id": "photo123"
+
   }'
 ```
 
@@ -85,12 +86,5 @@ curl -X POST \
 - **JWT Authentication Issues**: Validate token using `jwt.io` and ensure Keycloak configuration is correct.
 - **DNS Resolution Issues**: Verify Kubernetes DNS using `nslookup service-name.default.svc.cluster.local`.
 
-## Contributing
-Feel free to fork the repo and submit pull requests.
 
-## License
-MIT License
-
-## Contact
-For issues or suggestions, please open an issue in the **GitHub repository**.
 
