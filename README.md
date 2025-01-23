@@ -1,9 +1,10 @@
 # Photo Sharing Application
 
 ## Overview
-This project is a **photo-sharing application** built using **FastAPI** for backend services and **MongoDB** for database management. The architecture follows a **microservices** approach deployed on **Kubernetes** with services exposed via **Gravitee API Gateway** and secured with **Keycloak**.
+This project is a **photo-sharing application** built using **FastAPI** for backend services and **MongoDB** for database management. The architecture follows a **microservices** approach deployed on **Kubernetes** with services exposed via **Gravitee API Gateway** and secured with **Keycloak**. Additionally, **OpenStack** is used for cloud infrastructure management.
 
 ## Features
+
 - User authentication via **Keycloak**
 - API Gateway using **Gravitee**
 - Microservices-based architecture:
@@ -12,12 +13,15 @@ This project is a **photo-sharing application** built using **FastAPI** for back
   - **Photographer Service**: Handles user profiles
   - **Tags Service**: Supports photo tagging
 - Containerized using **Docker** and orchestrated with **Kubernetes**
+- Cloud infrastructure managed with **OpenStack**
 
 ## Technologies Used
+
 - **Backend**: FastAPI, Python, Uvicorn, gRPC
 - **Database**: MongoDB
 - **Containerization**: Docker
 - **Orchestration**: Kubernetes
+- **Cloud Infrastructure**: OpenStack
 - **Authentication**: Keycloak
 - **API Gateway**: Gravitee
 - **CI/CD**: GitLab CI/CD
@@ -85,6 +89,5 @@ curl -X POST \
 - **Photo Service Not Reachable**: Ensure the service is running and accessible inside Kubernetes (`kubectl get pods -o wide`).
 - **JWT Authentication Issues**: Validate token using `jwt.io` and ensure Keycloak configuration is correct.
 - **DNS Resolution Issues**: Verify Kubernetes DNS using `nslookup service-name.default.svc.cluster.local`.
-
 
 
