@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mongo-service-test:
+    image: mongo
+    container_name: mongo-service-test
+    networks:
+      - test-network
+    ports:
+      - "27017:27017"
+    restart: always
+
+  test-runner:
+    build:
+      context: .  # Now using the project root
+      dockerfile: TestingDockerfile  # TestingDockerfile should be moved to the project root
+    container_name: test-runner
+    networks:
+      - test-network
+    depends_on:
+      - mongo-service-test
+    environment:
+      - MONGO_HOST=mongo-service-test
+    volumes:
+      - ./app:/app  # Mounts all services inside /app
+    working_dir: /app
+    command: pytest
+
+networks:
+  test-network:
+    driver: bridge

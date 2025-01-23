@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: photo-service
+spec:
+  selector:
+    app: photo-service
+  ports:
+    - protocol: TCP
+      port: 8001
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: photo-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: photo-service
+  template:
+    metadata:
+      labels:
+        app: photo-service
+    spec:
+      containers:
+        - name: photo-service
+          image: gitlab-df-registry.imt-atlantique.fr/devops/devops-s25-g05/photo:latest
+          env:
+            - name: DATABASE_NAME
+              value: "devops-s25-05-photo-db"
+            - name: AUTH_DATABASE_NAME
+              value: "devops-s25-05-photo-db"
+            - name: MONGO_HOST
+              value: "mongo.cloud.imta.fr"
+            - name: PHOTOGRAPHER_HOST
+              value: "photographer-service"
+            - name: TAGS_HOST
+              value: "tags-service"
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongo
+                  key: username
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo
+                  key: password
+
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "1"
+          ports:
+            - containerPort: 8001
+      imagePullSecrets:
+        - name: regcred

@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tags-service
+spec:
+  selector:
+    app: tags-service
+  ports:
+  - protocol: TCP
+    port: 50051
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tags-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tags-service
+  template:
+    metadata:
+      labels:
+        app: tags-service
+    spec:
+      containers:
+      - name: tags-service
+        image: gitlab-registry.imt-atlantique.fr/devops-lab/shared/tags
+        env:
+        - name: DATABASE_NAME
+          value: "devops-s25-05-tags-db"
+        - name: AUTH_DATABASE_NAME
+          value: "devops-s25-05-tags-db"
+        - name: MONGO_HOST
+          value: "mongo.cloud.imta.fr"
+        - name: MONGO_USER
+          valueFrom:
+            secretKeyRef:
+              name: mongo
+              key: username
+        - name: MONGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo
+              key: password
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1"
+        ports:
+        - containerPort: 50051
+      imagePullSecrets:
+      - name: regcred

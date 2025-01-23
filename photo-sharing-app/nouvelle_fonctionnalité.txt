@@ -1,0 +1,157 @@
+Albums Service API Document 
+Endpoints Definition
+Albums Management
+Create an Album
+
+
+Endpoint: /photographers/{display_name}/albums
+Method: POST
+Request Body:
+ {
+  "title": "string",
+  "description": "string",
+  "cover_photo_id": "string"     // Optional
+}
+
+
+Response:
+201 Created: Album successfully created.
+ {
+  "album_id": "string",
+  "title": "string",
+  "description": "string",
+  "cover_photo_id": "string",
+  "created_at": "string"
+}
+
+
+404 Not Found: Photographer not found.
+400 Bad Request: Invalid request payload.
+Retrieve All Albums for a Photographer
+
+
+Endpoint: /photographers/{display_name}/albums
+Method: GET
+Response:
+200 OK: List of albums.
+ [
+  {
+    "album_id": "string",
+    "title": "string",
+    "description": "string",
+    "cover_photo_id": "string",
+    "created_at": "string"
+  }
+]
+
+
+404 Not Found: Photographer not found.
+Retrieve a Specific Album
+
+
+Endpoint: /photographers/{display_name}/albums/{album_id}
+Method: GET
+Response:
+200 OK: Album details.
+ {
+  "album_id": "string",
+  "title": "string",
+  "description": "string",
+  "cover_photo_id": "string",
+  "created_at": "string",
+  "photos": [
+    {
+      "photo_id": "string",
+      "title": "string",
+      "location": "string",
+      "tags": ["string"]
+    }
+  ]
+}
+
+
+404 Not Found: Photographer or album not found.
+Update an Album
+
+
+Endpoint: /photographers/{display_name}/albums/{album_id}
+Method: PUT
+Request Body:
+ {
+  "title": "string",
+  "description": "string",
+  "cover_photo_id": "string"  // Optional
+}
+
+
+Response:
+200 OK: Album successfully updated.
+404 Not Found: Photographer or album not found.
+400 Bad Request: Invalid request payload.
+Delete an Album
+
+
+Endpoint: /photographers/{display_name}/albums/{album_id}
+Method: DELETE
+Response:
+200 OK: Album successfully deleted.
+404 Not Found: Photographer or album not found.
+
+Photo Management in Albums
+Add a Photo to an Album
+
+
+Endpoint: /photographers/{display_name}/albums/{album_id}/photos
+Method: POST
+Request Body:
+ {
+  "photo_id": "string"
+}
+
+
+Response:
+201 Created: Photo successfully added to the album.
+404 Not Found: Photographer, album, or photo not found.
+400 Bad Request: Invalid request payload.
+Remove a Photo from an Album
+
+
+Endpoint: /photographers/{display_name}/albums/{album_id}/photos/{photo_id}
+Method: DELETE
+Response:
+200 OK: Photo successfully removed from the album.
+404 Not Found: Photographer, album, or photo not found.
+Retrieve Photos in an Album
+
+
+Endpoint: /photographers/{display_name}/albums/{album_id}/photos
+Method: GET
+Response:
+200 OK: List of photos in the album.
+ [
+  {
+    "photo_id": "string",
+    "title": "string",
+    "location": "string",
+    "tags": ["string"]
+  }
+]
+
+
+404 Not Found: Photographer or album not found.
+
+Download Album Photos as a ZIP
+
+
+Endpoint: /photographers/{display_name}/albums/{album_id}/photos-archive
+Method: GET
+Response:
+200 OK: Returns a binary ZIP file.
+ [
+Download file
+]
+
+
+404 Not Found: Photographer or album not found.
+503 Service Unavailable / 504 Gateway Timeout: Photo or Photographer service is not reachable or times out.
+

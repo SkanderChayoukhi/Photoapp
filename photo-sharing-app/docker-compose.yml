@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  mongo-service:
+    image: mongo
+    container_name: mongo-service
+    networks:
+      - photo-sharing-network
+    ports:
+      - "27017:27017"
+    restart: always
+
+  photographer-service:
+    build: ./app/photographer-service
+    container_name: photographer-service
+    networks:
+      - photo-sharing-network
+    depends_on:
+      - mongo-service
+    environment:
+      - MONGO_HOST=mongo-service
+    ports:
+      - "80:80"
+    restart: always
+
+  tags-service:
+    image: gitlab-registry.imt-atlantique.fr/devops-lab/shared/tags
+    container_name: tags-service
+    ports:
+      - "50051:50051"
+    networks:
+      - photo-sharing-network
+    restart: always   
+
+  photo-service:
+    build: ./app/photo-service
+    container_name: photo-service
+    networks:
+      - photo-sharing-network
+    depends_on:
+      - mongo-service
+      - tags-service
+      - photographer-service
+    environment:
+      - MONGO_HOST=mongo-service
+      - TAGS_HOST=tags-service
+      - PHOTOGRAPHER_HOST=photographer-service
+    ports:
+      - "8001:8001"
+    restart: always
+
+  albums-service:
+    build: ./app/albums_service
+    container_name: albums-service
+    networks:
+      - photo-sharing-network
+    depends_on:
+      - mongo-service
+      - photographer-service
+      - photo-service
+    environment:
+      - MONGO_HOST=mongo-service
+      - PHOTOGRAPHER_HOST=photographer-service
+      - PHOTO_HOST=photo-service
+    ports:
+      - "8002:8002"
+    restart: always
+
+networks:
+  photo-sharing-network:
+    driver: bridge
